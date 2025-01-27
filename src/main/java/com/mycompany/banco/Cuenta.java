@@ -21,6 +21,14 @@ public class Cuenta {
      * @param titular   DNI del titular de la cuenta
      * @param saldo     saldo de la cuenta
      */
+    
+    public Cuenta() {
+    }
+
+    public Cuenta(String codigo) {
+        this.codigo = codigo;
+    }
+
     public Cuenta(String codigo, String titular, float saldo) {
         this.codigo = codigo;
         this.titular = titular;
