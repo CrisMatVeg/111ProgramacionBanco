@@ -4,6 +4,10 @@
  */
 package com.mycompany.banco;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,21 +18,21 @@ public class Cuenta {
     private String codigo;
     private String titular;
     private float saldo;
-
-    /**
-     *
-     * @param codigo    es el código de la cuenta
-     * @param titular   DNI del titular de la cuenta
-     * @param saldo     saldo de la cuenta
-     */
+    private List<Movimiento> movimientos;
     
     public Cuenta() {
+        movimientos=new ArrayList<>();
     }
 
     public Cuenta(String codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * @param codigo    es el código de la cuenta
+     * @param titular   DNI del titular de la cuenta
+     * @param saldo     saldo de la cuenta
+     */
     public Cuenta(String codigo, String titular, float saldo) {
         this.codigo = codigo;
         this.titular = titular;
@@ -61,6 +65,13 @@ public class Cuenta {
         return saldo;
     }
 
+    public List<Movimiento> getMovimientos(){
+        return movimientos;
+    }
+    
+    public List<Movimiento> getMovimientos(LocalDate desde, LocalDate hasta){
+        return movimientos;
+    }
     /**
      *
      * @param codigo establece un codigo de cuenta
@@ -92,11 +103,12 @@ public class Cuenta {
      * @param cantidad
      */
     public void ingresar(float cantidad){
-        if(cantidad>=0){
+        if(cantidad>0){
             saldo+=cantidad;
+            movimientos.add(new Movimiento(LocalDate.now(),'I',cantidad,saldo));
         }
     }
-
+    
     /**
      *
      * @param cantidad
@@ -104,7 +116,39 @@ public class Cuenta {
     public void reintegrar(float cantidad){
         if(cantidad>0 && cantidad<=saldo){
             saldo-=cantidad;
+            movimientos.add(new Movimiento(LocalDate.now(),'R',-cantidad,saldo));
         }
+    }
+    
+    /**
+     * @param destino
+     * @param cantidad
+     */
+    public void realizarTransferencia(Cuenta destino,float cantidad){
+        if(cantidad>0 && cantidad<=saldo){
+            saldo-=cantidad;
+            movimientos.add(new Movimiento(LocalDate.now(),'T',-cantidad,saldo));
+        }
+    }
+    
+    /**
+     *
+     * @param origen
+     * @param cantidad
+     */
+    public void recibirTransferencia(Cuenta origen,float cantidad){
+        if(cantidad>0){
+            saldo+=cantidad;
+            movimientos.add(new Movimiento(LocalDate.now(),'T',cantidad,saldo));
+        }
+    }
+
+    /**
+     *
+     * @return la lista de movimientos  
+     */
+    public String listarMovimientos(){
+        return movimientos.toString();
     }
 
     /**
