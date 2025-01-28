@@ -4,6 +4,7 @@
  */
 package com.mycompany.banco;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,27 +31,31 @@ public class Banco {
     }
 
     public List<Cuenta> getCuentas() {
-        return cuentas;
+        return new ArrayList<>(cuentas);
     }
 
     public void setCuentas(List<Cuenta> cuenta) {
-        this.cuentas = cuentas;
+        this.cuentas = cuenta;
     }
     
+ //METODOS//
     public boolean abrirCuenta(Cuenta cuenta){
-        return cuentas.add(cuenta);        
+        if(buscarCuenta(cuenta.getCodigo())==null){
+            return cuentas.add(cuenta);
+        }       
+        return false;
     }
     
     public Cuenta buscarCuenta(String codigo){
-        cuenta=null;
-        if(this.cuenta!=null && codigo.equals(this.cuenta.getCodigo())){
-            cuenta=this.cuenta;
+        int posicion=cuentas.indexOf(new Cuenta(codigo));
+        if(posicion!=-1){
+            return cuentas.get(posicion);
         }
-        return cuenta;
+        return null;
     }
     
     public boolean cancelarCuenta(String codigo){
-        return true;
+        return cuentas.remove(new Cuenta(codigo));
     }
     
     public float getTotalDepositos(){

@@ -11,10 +11,10 @@ import java.time.LocalDate;
  * @author cristian.matveg
  */
 public class Movimiento {
-    private LocalDate fecha;
-    private char tipo;
-    private float cantidad;
-    private float saldo;
+    private final LocalDate fecha;
+    private final char tipo;
+    private final float cantidad;
+    private final float saldo;
     
 public Movimiento(LocalDate fecha, char tipo, float cantidad, float saldo) {
         this.fecha = fecha;
@@ -37,7 +37,7 @@ public Movimiento(LocalDate fecha, char tipo, float cantidad, float saldo) {
 
     @Override
     public String toString() {
-        return "Movimiento{" + "fecha=" + fecha + ", tipo=" + tipo + ", cantidad=" + cantidad + ", saldo=" + saldo + '}';
+        return fecha +" / "+ tipo + " / " + cantidad + " / " + saldo;
     }
     
 }
