@@ -6,12 +6,15 @@ package com.mycompany.banco;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /**
+ * Representa una cuenta bancaria con un titular, un saldo y una lista de movimientos.
+ * Permite realizar operaciones como ingresos, reintegros y transferencias.
+ * 
  * @author Cristian Mateos Vega
+ * @version 1.0
  * @since 1.0
  */
 public class Cuenta implements Comparable<Cuenta> {
@@ -21,18 +24,28 @@ public class Cuenta implements Comparable<Cuenta> {
     private float saldo;
     private List<Movimiento> movimientos;
     
+    /**
+     * Constructor por defecto. Inicializa la lista de movimientos.
+     */
     public Cuenta() {
         movimientos = new ArrayList<>();
     }
     
+     /**
+     * Constructor que inicializa la cuenta con un código.
+     * 
+     * @param codigo Código único de la cuenta.
+     */
     public Cuenta(String codigo) {
         this.codigo = codigo;
     }
 
     /**
-     * @param codigo es el código de la cuenta
-     * @param titular DNI del titular de la cuenta
-     * @param saldo saldo de la cuenta
+     * Constructor que inicializa la cuenta con un código, titular y saldo inicial.
+     * 
+     * @param codigo Código único de la cuenta.
+     * @param titular DNI del titular de la cuenta.
+     * @param saldo Saldo inicial de la cuenta (debe ser mayor o igual a 0).
      */
     public Cuenta(String codigo, String titular, float saldo) {
         this.codigo = codigo;
@@ -43,56 +56,74 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @return devuelve el codigo de la cuenta
+     * Obtiene el código de la cuenta.
+     * 
+     * @return Código de la cuenta.
      */
     public String getCodigo() {
         return codigo;
     }
 
     /**
-     *
-     * @return devuelve el titular de la cuenta
+     * Obtiene el titular de la cuenta.
+     * 
+     * @return Titular de la cuenta.
      */
     public String getTitular() {
         return titular;
     }
 
     /**
-     *
-     * @return devuelve el saldo de la cuenta
+     * Obtiene el saldo de la cuenta.
+     * 
+     * @return Saldo actual de la cuenta.
      */
     public float getSaldo() {
         return saldo;
     }
     
+    /**
+     * Obtiene la lista de todos los movimientos de la cuenta.
+     * 
+     * @return Lista de movimientos de la cuenta.
+     */
     public List<Movimiento> getMovimientos() {
         return movimientos;
     }
     
+    /**
+     * Obtiene los movimientos realizados en un rango de fechas.
+     * 
+     * @param desde Fecha de inicio del rango.
+     * @param hasta Fecha de fin del rango.
+     * @return Lista de movimientos dentro del rango especificado.
+     */
     public List<Movimiento> getMovimientos(LocalDate desde, LocalDate hasta) {
         return movimientos;
     }
 
-    /**
-     *
-     * @param codigo establece un codigo de cuenta
+     /**
+     * Establece el código de la cuenta.
+     * 
+     * @param codigo Nuevo código de la cuenta.
      */
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    /**
-     *
-     * @param titular
+     /**
+     * Establece el titular de la cuenta.
+     * 
+     * @param titular Nuevo titular de la cuenta.
      */
     public void setTitular(String titular) {
         this.titular = titular;
     }
 
     /**
-     *
-     * @param saldo
+     * Establece el saldo de la cuenta (siempre que sea un valor positivo o cero).
+     * 
+     * @param saldo Nuevo saldo de la cuenta.
      */
     public void setSaldo(float saldo) {
         if (saldo >= 0) {
@@ -101,8 +132,9 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @param cantidad
+     * Realiza un ingreso en la cuenta.
+     * 
+     * @param cantidad Cantidad a ingresar (debe ser mayor a 0).
      */
     public void ingresar(float cantidad) {
         if (cantidad > 0) {
@@ -112,8 +144,9 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @param cantidad
+     * Realiza un reintegro en la cuenta.
+     * 
+     * @param cantidad Cantidad a retirar (debe ser mayor a 0 y no superar el saldo).
      */
     public void reintegrar(float cantidad) {
         if (cantidad > 0 && cantidad <= saldo) {
@@ -123,8 +156,10 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     * @param destino
-     * @param cantidad
+     * Realiza una transferencia a otra cuenta.
+     * 
+     * @param destino Cuenta destino de la transferencia.
+     * @param cantidad Cantidad a transferir (debe ser mayor a 0 y no superar el saldo).
      */
     public void realizarTransferencia(Cuenta destino, float cantidad) {
         if (destino != null) {
@@ -137,9 +172,10 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @param origen
-     * @param cantidad
+     * Recibe una transferencia de otra cuenta.
+     * 
+     * @param origen Cuenta de origen de la transferencia.
+     * @param cantidad Cantidad recibida (debe ser mayor a 0).
      */
     public void recibirTransferencia(Cuenta origen, float cantidad) {
         if (origen != null) {
@@ -152,16 +188,18 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @return la lista de movimientos
+     * Lista los movimientos de la cuenta en formato de cadena.
+     * 
+     * @return Representación en cadena de los movimientos.
      */
     public String listarMovimientos() {
         return movimientos.toString();
     }
 
-    /**
-     *
-     * @return
+   /**
+     * Representación en cadena de la cuenta.
+     * 
+     * @return Cadena con el código, titular y saldo de la cuenta.
      */
     @Override
     public String toString() {
@@ -169,8 +207,9 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @return
+     * Genera un código hash para la cuenta basado en su código.
+     * 
+     * @return Código hash de la cuenta.
      */
     @Override
     public int hashCode() {
@@ -180,9 +219,10 @@ public class Cuenta implements Comparable<Cuenta> {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Compara si dos cuentas son iguales en base a su código.
+     * 
+     * @param obj Objeto a comparar.
+     * @return true si los códigos son iguales, false en caso contrario.
      */
     @Override
     public boolean equals(Object obj) {
@@ -199,6 +239,12 @@ public class Cuenta implements Comparable<Cuenta> {
         return Objects.equals(this.codigo, other.codigo);
     }
     
+    /**
+     * Compara dos cuentas por su código.
+     * 
+     * @param o Cuenta a comparar.
+     * @return Resultado de la comparación.
+     */
     @Override
     public int compareTo(Cuenta o) {
         return this.codigo.compareTo(o.codigo);
