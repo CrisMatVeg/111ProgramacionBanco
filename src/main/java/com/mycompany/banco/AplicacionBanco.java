@@ -19,7 +19,7 @@ import java.util.logging.SimpleFormatter;
  */
 public class AplicacionBanco {
 
-    private static final Logger LOG=Logger.getLogger("es.sauces.banco");
+    private static final Logger LOG=Logger.getLogger("com.mycompany.banco");
     public static void main(String[] args) throws IOException {
         Cuenta cuenta = null;
         Banco banco = new Banco("mibanco");
@@ -28,7 +28,7 @@ public class AplicacionBanco {
         String codigo=null, titular;
         float saldo, cantidad;
         Scanner teclado = new Scanner(System.in);
-        Handler controlador=new FileHandler("./registro.log,",true);
+        Handler controlador=new FileHandler("./registro.log",true);
         controlador.setFormatter(new SimpleFormatter());
         LOG.addHandler(controlador);
         LogManager.getLogManager().readConfiguration(ClassLoader.getSystemClassLoader().getResourceAsStream("mylogging.properties"));
